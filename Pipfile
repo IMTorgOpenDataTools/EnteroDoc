@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+xhtml2pdf = "*"
+pdftitle = "*"
+"pdfminer.six" = "*"
+pymupdf = "*"
+pypdf = "*"
+python-docx = "*"
+python-whois = "*"
+tldextract = "*"
+bs4 = "*"
+requests-html = "*"
+spacy = "*"
+faker = "*"
+logzero = "*"
+pytest = "*"
+setuptools = "*"
+wheel = "*"
+pandas = "*"
+pikepdf = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
