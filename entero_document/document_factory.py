@@ -7,30 +7,34 @@ __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from .config import EnteroConfig
-from .record import record_attrs, DocumentAttributeShell
+from .config import ConfigObj
 from .url import UniformResourceLocator
-from .extractor import Extractor
 from .document import Document
 
-#from . import ARCHIVE_extractions as ex
-
 from pathlib import Path, PosixPath
-import shutil
-import itertools
-
-
-#config = EnteroConfig(logger=False)
 
 
 
 class DocumentFactory:
+    """"Factory to build Documents from PosixPath or UniformResourceLocator
+    :param config: object of type EnteroConfig or use default (None)
+
+    Usage::
+        The `.build()` method takes `path_or_url` as input
+        >>> from entero_document.document_factory import DocumentFactory
+        >>> from entero_document.document import Document
+        >>>
+        >>> Doc = DocumentFactory()
+        >>> test_file = Path('tests/examples/example.pdf')
+        >>> doc = Doc.build(test_file)
+        >>> assert type(doc) == Document
+    """
 
     def __init__(self, config=None):
         if config:
             self.config = config
         else:
-            self.config = EnteroConfig(apply_logger=False)
+            self.config = ConfigObj
         if self.config.applySpacy:
             import spacy
             nlp = spacy.load("en_core_web_sm")

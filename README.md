@@ -83,12 +83,12 @@ The module `PyMuPdf` is very good at some document extraction logic, such as tab
 
 ## TODO
 
-* force the use of a Singleton EnteroConfig
-  - this will apply it as default for Factories, instead of creating a new one for each initialization
-  - create tests for config
-* finish documentation / comments
-  - use consistent convention
-* remove record_attrs from Document
+* ~~force the use of a Singleton EnteroConfig~~
+  - ~~this will apply it as default for Factories, instead of creating a new one for each initialization~~
+  - ~~create tests for config~~
+* ~~finish documentation / comments~~
+  - ~~use consistent convention~~
+* ~~remove record_attrs from Document~~
 
 * consolidate pdf modules
   - ~~remove pdfkit~~

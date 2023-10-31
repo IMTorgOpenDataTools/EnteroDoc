@@ -7,7 +7,7 @@ __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from .config import EnteroConfig
+from .config import ConfigObj
 from .extracts_pdf import PdfExtracts
 from .extracts_html import HtmlExtracts
 #from .office_extracts import OfficeExtracts
@@ -16,8 +16,19 @@ from .extracts_html import HtmlExtracts
 
 class ExtractsSuite:
     """Singleton of all `extracts_*.py` logic.
+    :param config: object of type EnteroConfig
 
     Tightly-coupled to Document attributes through `parent` variable.
+
+    Usage::
+        Selected from within Document and applied for use with each file_type
+        _useable_suffixes = {'.html': Extractor.extract_from_html,
+                             '.pdf': Extractor.extract_from_pdf,
+                             '.ppt': None,
+                             '.docx': None,
+                             '.csv': None,
+                             '.xlsx': None
+                            }
     """
 
     def __init__(self, config):
@@ -46,5 +57,5 @@ class ExtractsSuite:
 
 
 # export
-config = EnteroConfig(apply_logger=False)
-Extractor = ExtractsSuite(config)
+#config = Config(apply_logger=False)
+Extractor = ExtractsSuite(ConfigObj)

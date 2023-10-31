@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Constants used for configuration
+Constants used for configuration of all classes
 """
 
 __author__ = "Jason Beach"
@@ -23,6 +23,17 @@ import json
 class EnteroConfig:
     """Config for both Document and UniformResourceLocator classes.
     
+    :param apply_logger: bool to use default Path() / 'logs' / 'process.log' (True), or simply print (False)
+
+    Usage::
+        Prefer the Singleton instantiated below this class
+        >>> from entero_document.config import ConfigObj
+        >>> ConfigObj.output_mapping_template_path = Path('tests/data/mapping_template.json')
+        >>> ConfigObj.get_output_mapping_template()
+        
+        If you need different configurations for some objects, it is possible
+        >>> config1 = EnteroConfig(apply_logger=True)
+        >>> config2 = EnteroConfig(apply_logger=False)
     """
 
     def __init__(self, apply_logger=True):
@@ -62,6 +73,10 @@ class EnteroConfig:
     def print_error(self, msg):
         sys.stdout.write(f'ERROR: {msg}')
 
+    def set_logger(self, path_to_logfile):
+        """TODO"""
+        pass
+
     def get_output_mapping_template(self):
         """TODO"""
         if self.output_mapping_template_path:
@@ -82,3 +97,8 @@ class EnteroConfig:
                     return True
                 else:
                     return False
+                
+
+
+# default Singleton config across all Factories, instantiated once
+ConfigObj = EnteroConfig(apply_logger=False)

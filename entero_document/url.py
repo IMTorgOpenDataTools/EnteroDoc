@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-UniformResourceLocator (URL) and UrlFactor classes
+UniformResourceLocator (URL) and UrlFactory classes
 """
 
 __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from .config import EnteroConfig
+from .config import ConfigObj 
 
 import tldextract
 import whois
@@ -23,13 +23,20 @@ import sys
 
 
 class UrlFactory:
-    """Builder pattern with config."""
+    """Builder pattern with config.
+    :param config: object of type EnteroConfig
+    
+    Usage::
+        >>> hrefs = ['https://www.jpmorgan.com']
+        >>> URL = UrlFactory()
+        >>> urls = [URL.build(url) for url in hrefs]
+    """
 
     def __init__(self, config=None):
         if config:
             self.config = config
         else:
-            self.config = EnteroConfig(apply_logger=False)
+            self.config = ConfigObj
 
     def build(self, url):
         """Build UniformResourceLocator objects from 
@@ -50,6 +57,12 @@ class UniformResourceLocator:
     * web page (ie. )
     * html or pdf file (ie. )
     * json or other data format (ie. )
+
+    Usage::
+        >>> hrefs = ['https://www.jpmorgan.com']
+        >>> URL = UrlFactory()
+        >>> urls = [URL.build(url) for url in hrefs]
+        >>> urls[0].get_hostname() == 'www.jpmorgan.com'
     """
 
     _possible_schemes = ['http://', 'https://']

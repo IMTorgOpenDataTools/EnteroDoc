@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Document Record class
+Attributes / Keys and Record classes for use with Document
+
+Primary vars::
+* record_attrs - all attributes to populate for each file, maintained in a record
+* class DocumentTemplate - schema for records
+* class DocumentRecord(DocumentBase) - record filled with file metadata, text, and other values
 """
 
 __author__ = "Jason Beach"
@@ -16,7 +21,13 @@ import copy
 import inspect
 
 
-#TODO: this list drives the extractions and workflow, it should be: i) loaded from file, ii)organixed in groups by prefix, i.e. ref_, file_, text_, ...
+
+fake = Faker()
+Faker.seed(0)
+
+
+
+#TODO: this list drives the extractions and workflow, it should be: i) loaded from file, ii)organized in groups by prefix, i.e. ref_, file_, text_, ...
 record_attrs = [
         #file indexing
         "id",
@@ -49,29 +60,17 @@ record_attrs = [
         "keywords",
         "summary"
 ]
+
+
+
 DocumentBase = namedtuple("DocumentBase", record_attrs)
 
-'''
-class DocumentAttributeShell:
-     """Shell to hold Document class attributes.
-     
-     TODO: this MUST be of type dotdict
-     """
 
-     def __init__(self):
-          for key in record_attrs:
-            setattr(self, key, None)
-     
-     def keys(self):
-          attributes = inspect.getmembers(self, lambda a:not(inspect.isroutine(a)))
-          attrs_without_special = [a[0] for a in attributes if not(a[0].startswith('__') and a[0].endswith('__'))]
-          return attrs_without_special 
-'''
 
-class DocumentAttributeShell:
-     """Shell to hold Document class attributes.
-     
-     TODO: this MUST be of type dotdict
+class DocumentTemplate:
+     """Dotdict template to hold Document class attributes.
+
+     Allows values to be changed after instantiation.
      """
 
      def __init__(self):
@@ -83,18 +82,15 @@ class DocumentAttributeShell:
                tmp[key] = None
           newTmp = dotdict(tmp)
           return newTmp
-'''
-tmp = {}
-for key in record_attrs:
-     tmp[key] = None
-DocumentAttributeShell = dotdict(tmp)
-'''
 
 
-fake = Faker()
-Faker.seed(0)
+
+
 class DocumentRecord(DocumentBase):
-     """Extended functionality of namedtuple."""
+     """Extended functionality of namedtuple.
+
+     Does NOT allow values to be changed after instantiation.
+     """
 
      _count = 0
      _inherited_attrs = ['count','index']

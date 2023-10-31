@@ -11,7 +11,7 @@ import signal
 
 
 class dotdict(dict):
-    """dot.notation access to dictionary attributes
+    """Enables dot.notation access to dictionary attributes
     ref: https://stackoverflow.com/questions/2352181/how-to-use-a-dot-to-access-members-of-dictionary
     """
     __getattr__ = dict.get

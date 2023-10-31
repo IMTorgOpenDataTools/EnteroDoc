@@ -7,23 +7,26 @@ __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-#from .config import EnteroConfig
-from .record import record_attrs, DocumentAttributeShell, DocumentRecord
+from .record import record_attrs, DocumentTemplate, DocumentRecord
 from .extractor import Extractor
-from .url import UniformResourceLocator
-#from . import ARCHIVE_extractions as ex
 
-from pathlib import Path, PosixPath
 import shutil
 import itertools
 
 
-#config = EnteroConfig(logger=False)
-
-
 
 class Document:
-    """Determine doc type and apply appropriate extractions and transformations.
+    """Primary Document class for the module.  Built with DocumentFactory().build()
+    :params documented in __init__()
+
+    Determine file_type and apply appropriate extractions and processing to provision `_record` attributes.
+
+    Usage::
+        >>> Doc = DocumentFactory()
+        >>> test_file = Path('tests/examples/example.pdf')
+        >>> doc = Doc.build(test_file)
+        >>> docrec = DocumentRecord()
+        >>> result = docrec.validate_object_attrs(doc)
     
     TODO:I added attrs: {'file_document', 'file_str'}, where should these be organized?
     """
@@ -37,38 +40,8 @@ class Document:
                          '.xlsx': None
                         }
     #TODO:_record_attrs = record_attrs
-    _record_attrs = [
-            #file indexing
-            "id",
-            "reference_number",
-            "filepath",
-            "filename_original",
-            "filename_modified",
+    _record_attrs = record_attrs
 
-            #raw
-            "file_extension",
-            "filetype",
-            "file_str",
-            "file_document",
-            "page_nos",
-            "length_lines",
-            "file_size_mb",
-            "date",
-
-            #inferred / searchable
-            "title",
-            "author",
-            "subject",
-            "toc",
-            "pp_toc",
-
-            "body",
-            "clean_body",
-            "readability_score",
-            "tag_categories",
-            "keywords",
-            "summary"
-    ]
     #TODO: word_extensions = [".doc", ".odt", ".rtf", ".docx", ".dotm", ".docm"]
     #TODO: ppt_extensions = [".ppt", ".pptx"]
     #TODO: initialize all attributes before running methods
@@ -79,6 +52,7 @@ class Document:
                 path_or_url_obj - <UniformResourceLocator>, <PosixPath>
                 logger - EnteroConfig.logger
                 applySpacy - EnteroConfig.applySpacy
+                output_mapping - TODO
 
         private vars - `self._<name>`
         record vars - `self.record.<name>`
@@ -88,7 +62,7 @@ class Document:
         self._logger = logger
         self._applySpacy = applySpacy
         self._output_mapping = output_mapping
-        self.record = DocumentAttributeShell()
+        self.record = DocumentTemplate()
 
         # set file indexing and raw attrs
         if self._file_format=='url':

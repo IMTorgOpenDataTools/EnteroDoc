@@ -9,7 +9,7 @@ __version__ = "0.1.0"
 __license__ = "MIT"
 
 
-from entero_document.record import record_attrs, DocumentAttributeShell
+from entero_document.record import record_attrs, DocumentTemplate
 
 #html
 import bs4
@@ -30,7 +30,7 @@ class HtmlExtracts:
         self.config = config
 
 
-    def html_string_to_pdf(self, html_str, url_path=None, record=DocumentAttributeShell()):
+    def html_string_to_pdf(self, html_str, url_path=None, record=DocumentTemplate()):
         """Generate a pdf:str and associated record metadata (title, toc, ...) 
         from html string content.
         """

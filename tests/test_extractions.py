@@ -1,7 +1,6 @@
 """
-Tests for Document class
+Tests for all *Extracts classes
 
-TODO: test with web using URL class
 TODO: msft formats to html
 """
 
@@ -43,6 +42,7 @@ def test_local_extract_from_pdf_string():
 
 
 def test_web_extract_from_pdf_string():
+    """TODO:this test appears to be non-deterministic as it sometimes fails because it is reading a different example file"""
     hrefs = ['https://www.jpmorgan.com/content/dam/jpm/merchant-services/documents/jpmorgan-interchange-guide.pdf'
     ]
     URL = UrlFactory()

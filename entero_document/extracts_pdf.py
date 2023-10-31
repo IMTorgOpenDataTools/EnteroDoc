@@ -31,7 +31,7 @@ __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from entero_document.record import record_attrs, DocumentAttributeShell
+from entero_document.record import record_attrs, DocumentTemplate
 from .utils import timeout, get_clean_text
 
 #pdf
@@ -59,7 +59,7 @@ class PdfExtracts:
     def __init__(self, config):
         self.config = config
 
-    def extract_from_pdf_string(self, pdf_stream, record=DocumentAttributeShell()):
+    def extract_from_pdf_string(self, pdf_stream, record=DocumentTemplate()):
         """TODO"""
         time0 = time.time()
 
