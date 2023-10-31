@@ -16,7 +16,6 @@ import copy
 import inspect
 
 
-
 #TODO: this list drives the extractions and workflow, it should be: i) loaded from file, ii)organixed in groups by prefix, i.e. ref_, file_, text_, ...
 record_attrs = [
         #file indexing
@@ -166,7 +165,7 @@ class DocumentRecord(DocumentBase):
           if check_attrs: 
                raise TypeError
           return record_values
-
+     
      def validate_object_attrs(self, target):
           """Validate that an object has the same attributes
           as DocumentRecord.
@@ -176,15 +175,22 @@ class DocumentRecord(DocumentBase):
           :param target - document object
           :return result(dict[str,str]) - which attributes should be added / removed from target
           """
-          pairs = inspect.getmembers(target.record, lambda a:not(inspect.isroutine(a)))
-          
-          target_attrs = []
-          set0 = [a[0] for a in pairs if not(a[0].startswith('_')) ]               #not(a[0].startswith('__') and a[0].endswith('__'))] )
-          set1 = list(target.record.keys())
-          target_attrs.extend(set0)
-          target_attrs.extend(set1)
-          target_attrs = set(target_attrs)
+          from .document import Document
 
+          if type(target) == DocumentRecord:
+               lst0 = target._asdict().keys()
+          elif type(target) == Document:
+               lst0 = target.record.keys()
+          #elif type(target) == Document:
+          #     pairs = inspect.getmembers(target.record, lambda a:not(inspect.isroutine(a)))
+          #     lst0 = [a[0] for a in pairs if not(a[0].startswith('_')) ]               #not(a[0].startswith('__') and a[0].endswith('__'))] )
+          elif type(target) == dict:
+               pairs = target.keys()
+               lst0 = list(pairs)
+          else:
+               print(f"There was a problem with target: {target}")
+               raise TypeError
+          target_attrs = set( lst0 )
           docrec_attrs = set( self._asdict().keys() )
           docrec_attrs_missing = target_attrs.difference(docrec_attrs)
           target_attrs_missing = docrec_attrs.difference(target_attrs)

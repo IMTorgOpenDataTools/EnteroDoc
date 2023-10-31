@@ -19,7 +19,7 @@ from entero_document.config import EnteroConfig
 
 from pathlib import Path
 
-config = EnteroConfig(logger=False)
+config = EnteroConfig(apply_logger=False)
 
 
 def test_local_extract_from_pdf_string():
@@ -52,7 +52,7 @@ def test_web_extract_from_pdf_string():
 
     Pdf = PdfExtracts(config)
     result_record = Pdf.extract_from_pdf_string(pdf_stream)
-    assert result_record == "A MERCHANT'S GUIDE TO Card Acceptance Fees "
+    assert result_record['title'] == "A MERCHANT'S GUIDE TO Card Acceptance Fees "
 
 def test_local_extract_html():
     filepath = Path() / 'tests' / 'examples' / 'Research Articles in Simplified HTML.html'

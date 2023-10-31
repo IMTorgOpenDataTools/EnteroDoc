@@ -3,6 +3,36 @@
 Use one Document class across all file formats to extract metadata and text.
 
 
+## Usage
+
+### Basic
+
+Beginning with a location (objec type), such as file location (`PosixPath`) or url (`UniformResourceLocator`), the artifact is provided to the Factory to build an `EnteroDocument`.
+
+```
+>>> test_file = Path('tests/examples/example.pdf')
+>>> Doc = DocumentFactory()
+>>> doc = Doc.build(test_file)
+>>> docrec = DocumentRecord()
+>>> result = docrec.validate_object_attrs(doc)
+>>> assert list(result) == ['target_attrs_to_remove', 'target_attrs_to_add']
+```
+
+### Output key mapping
+
+You can change the output dict's keys through a mapping provided to the config.  Create a mapping similar to that found in `tests/data/mapping_template.json`.
+
+```
+>>> config = EnteroConfig()
+>>> config.output_mapping_template_path = Path('tests/data/mapping_template.json')
+>>> config.get_output_mapping_template()
+
+>>> Doc = DocumentFactory(config)
+>>> doc = Doc.build(test_file)
+>>> output_mapped = doc.get_record(map_output=True)
+```
+
+
 ## Classes
 
 This module reduces redundant logic by converting some file formats to pdf format, then applying data extraction algorithms to the pdf.  File location can be local, given by `PosixPath`, or the file artifact can be kept in memory (TODO:add automatic streaming processing for large files) after initializing it as `UniformResourceLocator`.
@@ -45,13 +75,20 @@ Spacy is required to process text by using `applySpacy`.
 ` python -m spacy download en_core_web_sm`
 
 
-### PDF Processing 
+### PDF processing 
 
 The module `PyMuPdf` is very good at some document extraction logic, such as table of contents, but it has a very restrictive license (AGPL).  If this is appropriate for your use case you can use `applyPyMuPdf` to use this module.
 
 
 
 ## TODO
+
+* force the use of a Singleton EnteroConfig
+  - this will apply it as default for Factories, instead of creating a new one for each initialization
+  - create tests for config
+* finish documentation / comments
+  - use consistent convention
+* remove record_attrs from Document
 
 * consolidate pdf modules
   - ~~remove pdfkit~~

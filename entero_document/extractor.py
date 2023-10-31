@@ -46,5 +46,5 @@ class ExtractsSuite:
 
 
 # export
-config = EnteroConfig(logger=False)
+config = EnteroConfig(apply_logger=False)
 Extractor = ExtractsSuite(config)

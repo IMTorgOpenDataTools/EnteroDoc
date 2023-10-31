@@ -7,8 +7,9 @@ __author__ = "Jason Beach"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from entero_document.document import DocumentFactory, Document
 from entero_document.record import DocumentRecord
+from entero_document.document_factory import DocumentFactory
+from entero_document.document import Document
 
 from pathlib import Path
 import pytest
@@ -21,7 +22,7 @@ def test_document_attributes():
     doc = Doc.build(test_file)
     docrec = DocumentRecord()
     result = docrec.validate_object_attrs(doc)
-    assert list(result) == ['target_attrs_to_remove', 'target_attrs_to_add']
+    assert result['target_attrs_to_remove'] == result['target_attrs_to_add'] == set()
 
 def test_document_populated():
     test_file = Path('tests/demo/econ_2301.00410.pdf')
@@ -71,3 +72,9 @@ def test_document_extraction():
         check = hasattr(doc.record, 'title') == True
         checks.append(check)
     assert all(checks) == True
+
+def test_get_record():
+    test_file = Path('tests/demo/econ_2301.00410.pdf')
+    doc = Doc.build(test_file)
+    record = doc.get_record()
+    assert list(record.keys()).__len__() == 24

@@ -29,7 +29,7 @@ class UrlFactory:
         if config:
             self.config = config
         else:
-            self.config = EnteroConfig(logger=False)
+            self.config = EnteroConfig(apply_logger=False)
 
     def build(self, url):
         """Build UniformResourceLocator objects from 
