@@ -14,6 +14,7 @@ from .record import DocumentRecord
 import logzero
 from logzero import logger
 
+import sys
 from pathlib import Path
 import json
 
@@ -49,11 +50,17 @@ class EnteroConfig:
             logzero.logfile(self.logging_dir, maxBytes=1000000, backupCount=3)       #set rotating log file
             self.logger.info('logger created, constants initialized')
         else:
-            self.logger = dotdict( {'info': print, 'error': print} )
+            self.logger = dotdict( {'info': self.print_info, 'error': self.print_error} )
 
         # provisioning logic
         self.get_output_mapping_template()
 
+    
+    def print_info(self, msg):
+        sys.stdout.write(f'INFO: {msg}')
+
+    def print_error(self, msg):
+        sys.stdout.write(f'ERROR: {msg}')
 
     def get_output_mapping_template(self):
         """TODO"""
